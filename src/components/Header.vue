@@ -22,13 +22,16 @@
         </li>
       </ul>
 
-      <strong class="navbar-text mr-auto" :class="fundsColour">
-        Funds: {{ funds }}
-      </strong>
+      <span class="navbar-text mr-auto">
+        Funds:
+        <strong :class="fundsColour">{{ funds | currency }}</strong>
+        Portfolio Value:
+        <strong :class="valueColour">{{ portfolioValue | currency }}</strong>
+      </span>
 
       <ul class="navbar-nav">
         <li class="nav-item">
-          <router-link to="/endday" activeClass="active"><a class="nav-link">End Day</a></router-link>
+          <a href="#" @click="endDay" activeClass="active" class="nav-link">End Day</a>
         </li>
         <li class="nav-item dropdown">
           <a  
@@ -54,13 +57,29 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex';
+
   export default {
     computed: {
       funds() {
         return this.$store.getters.funds;
       },
+      portfolioValue() {
+        return this.$store.getters.portfolioValue;
+      },
       fundsColour() {
         return this.funds > 1000 ? 'text-success' : this.funds > 250 ? 'text-warning' : 'text-danger';
+      },
+      valueColour() {
+        return this.portfolioValue > 1000 ? 'text-success' : 'text-info';
+      },
+    },
+    methods: {
+      ...mapActions([
+        'randomizeStocks'
+      ]),
+      endDay() {
+        this.randomizeStocks();
       }
     }
   }
