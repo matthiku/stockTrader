@@ -1,10 +1,10 @@
 <template>
   <div class="col-md-6 col-lg-4">
 
-    <div class="card mt-3">
-      <div class="card-header">
+    <div class="card">
+      <div class="card-header bg-secondary">
         {{ stock.name }} 
-        <small>(Price: € {{ stock.price }})</small>
+        <small>(Price: € {{ stock.price }} | {{ stock.quantity }})</small>
       </div>
 
       <div class="card-body">
@@ -18,10 +18,10 @@
         </div>
         <div class="float-right">
           <button
-                  @click="buyStock"
+                  @click="sellStock"
                   :disabled="quantity <= 0 || !Number.isInteger(quantity * 1)" 
                   class="btn btn-success"
-                  >Buy</button>
+                  >Sell</button>
         </div>
       </div>
     </div>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+	import {mapActions} from 'vuex';
+
   export default {
     props: [ 'stock' ],
     data() {
@@ -38,16 +40,18 @@
       }
     },
     methods: {
-      buyStock() {
-        const order = {
-          stockId: this.stock.id,
-          stockPrice: this.stock.price,
-          quantity: this.quantity,          
-        };
-        console.log(order);
-        this.$store.dispatch('buyStock', order);
-        this.quantity = 0;
-      }
+    	...mapActions({
+    	    		placeSellOrder: 'sellStock'
+    	}),
+    	sellStock() {
+    		const order = {
+    			stockId: this.stock.id,
+    			stockPrice: this.stock.price,
+    			quantity: this.quantity
+    		};
+    		this.placeSellOrder(order);
+    		this.quantity = 0;
+    	}
     }
   }
 </script>
