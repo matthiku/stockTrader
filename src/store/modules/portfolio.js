@@ -1,6 +1,6 @@
 const state = {
   funds: 10000,
-  stocks: []
+  stocks: [],
 };
 
 const mutations = {
@@ -36,6 +36,7 @@ const mutations = {
 const actions = {
   sellStock({commit}, order) {
     commit('SELL_STOCK', order);
+    commit('WRITE_LOG', ['SELL_STOCK', order, state.funds]);
   }
 };
 
@@ -55,6 +56,9 @@ const getters = {
   },
   funds (state) {
     return state.funds;
+  },
+  portfolioLog (state) {
+    return state.logs;
   },
   portfolioValue (state, getters) {
     let val = 0;

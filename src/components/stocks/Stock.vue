@@ -4,7 +4,7 @@
     <div class="card">
       <div class="card-header">
         <strong>{{ stock.name }}</strong> 
-        current: {{ stock.price | currency }} 
+        {{ stock.price | currency }} 
         <small 
             :class=" falling ? 'text-danger' :'text-success' "
             v-if="stock.oldPrice">

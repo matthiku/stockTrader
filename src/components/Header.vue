@@ -20,12 +20,16 @@
         <li>
           <router-link to="/stocks" activeClass="active"><a class="nav-link">Stocks</a></router-link>
         </li>
+
+        <li>
+          <router-link to="/logs" activeClass="active"><a class="nav-link">History</a></router-link>
+        </li>
       </ul>
 
       <span class="navbar-text mr-auto">
         Funds:
         <strong :class="fundsColour">{{ funds | currency }}</strong>
-        Portfolio Value:
+        Invested:
         <strong :class="valueColour">{{ portfolioValue | currency }}</strong>
       </span>
 
