@@ -1,7 +1,7 @@
 <template>
   <div class="container">
 
-  	<h2>Stock Trader - Transaction Log</h2>
+    <h2>Stock Trader - Transaction Log</h2>
 
     <ul class="list-group">
       <show-log v-for="log in logs" :log="log" key="log.timestamp"></show-log>
@@ -17,20 +17,23 @@
 <script>
   import LogBook from './Log.vue';
 
-	export default {
-		computed: {
-			funds() {
-				return this.$store.getters.funds;
-			},
+  export default {
+    computed: {
+      funds() {
+        return this.$store.getters.funds;
+      },
+      stocks() {
+        return this.$store.getters.stocks;
+      },
       portfolioValue() {
         return this.$store.getters.portfolioValue;
       },
       logs() {
         return this.$store.getters.logs;
       },
-		},
+    },
     components: {
       showLog: LogBook,
     },
-	}
+  }
 </script>

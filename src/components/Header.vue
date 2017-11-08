@@ -88,17 +88,19 @@
       ...mapActions({
         randomizeStocks: 'randomizeStocks',
         fetchData: 'loadData',
+        writeData: 'saveData',
       }),
       endDay() {
         this.randomizeStocks();
       },
       saveData() {
         const data = {
+          logs: this.$store.getters.logs,
           funds: this.$store.getters.funds,
           stockPortfolio: this.$store.getters.stockPortfolio,
           stocks: this.$store.getters.stocks,
         };
-        this.$http.put('stockTraderData.json', data);
+        this.writeData(data);
         this.isDropDownOpen = false;
       },
       loadData() {

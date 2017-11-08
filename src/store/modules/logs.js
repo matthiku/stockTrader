@@ -4,10 +4,12 @@ const state = {
 
 const mutations = {
   'WRITE_LOG' (state, [what, data]) {
-    console.log('writing log: ' + what);
     let a = new Date();
     state.logs.push({action: what, data, timestamp: a.toISOString()});
   },
+  'SET_LOGS' (state, log) {
+    state.logs = log;    
+  }
 };
 
 const getters = {
