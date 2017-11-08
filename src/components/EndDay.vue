@@ -25,7 +25,7 @@
       ]),
       endDay() {
         this.randomizeStocks();
-        this.$router.push({ name: 'stocks'})
+        this.$router.push({ name: 'portfolio'})
       }
     }
 	}

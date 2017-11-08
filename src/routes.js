@@ -6,7 +6,7 @@ import Stocks from './components/stocks/Stocks.vue';
 
 export const routes = [
     { path: '/', component: Home },
-    { path: '/portfolio', component: Portfolio },
+    { path: '/portfolio', component: Portfolio, name: 'portfolio' },
     { path: '/stocks', component: Stocks, name: 'stocks' },
     { path: '/endday', component: EndDay },
 ];

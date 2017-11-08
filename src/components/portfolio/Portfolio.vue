@@ -15,9 +15,8 @@
     </div>
     <hr>
     <div class="row">     
-      <div v-if="stocks.length && funds > 0" class="mx-auto">
-        <router-link to="/stocks" class="btn btn-info">Buy more Stocks</router-link></div>
-      </div>
+        <router-link to="/stocks" v-if="stocks.length && funds > 10" class="btn btn-info mx-auto">Buy more Stocks</router-link>
+        <router-link to="endday" class="btn btn-primary ml-auto">End Day</router-link>
     </div>
 
   </div>

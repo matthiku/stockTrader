@@ -3,12 +3,22 @@
 
     <div class="card mb-2">
       <div class="card-header bg-secondary">
-        {{ stock.name }} 
-        <small>(Price: {{ stock.price | currency }} | {{ stock.quantity }})</small>
+        <strong>{{ stock.name }}</strong> 
+        current: {{ stock.price | currency }} 
+        <small 
+            :class=" falling ? 'text-danger' :'text-warning' "
+            v-if="stock.oldPrice">
+          (<span v-if="!falling">+</span>{{ difference }})
+        </small>
       </div>
 
       <div class="card-body">
-        <div class="row mx-auto">        
+        <div class="row">
+          You own <strong>&nbsp; {{ stock.quantity }} &nbsp;</strong> stocks. Current value:&nbsp;
+          <span :class=" loss ? 'text-danger' : 'text-success' ">{{ stock.quantity * stock.price | currency }}</span>
+        </div>
+
+        <div class="row">        
           <input
                   v-model="quantity"
                   type="number" 
@@ -20,12 +30,17 @@
           <button
                   @click="sellStock"
                   :disabled="quantity <= 0 || !Number.isInteger(quantity * 1) || (quantity * 1) > (stock.quantity * 1)" 
-                  class="btn btn-success"
                   :class="insufficientQuantity ? 'btn btn-sm btn-danger' : 'btn btn-success'"
                   >{{ insufficientQuantity ? 'Not enough stocks' : 'Sell' }}</button>
+          <button
+                  @click="sellAllStock"
+                  class="btn btn-warning"
+                  >Sell all {{ stock.quantity }}</button>
         </div>
-        <div class="row mx-auto">
-          You own {{ stock.quantity }} stocks. Total value:&nbsp;<span class="text-success">{{ stock.quantity * stock.price | currency }}</span>
+
+        <div class="row small">
+          Initial purchase @ <strong>&nbsp;{{ stock.initPrice | currency }}</strong>. Purchase value:&nbsp;
+          <span class="text-success">{{ stock.quantity * stock.initPrice | currency }}</span>
         </div>
       </div>
     </div>
@@ -37,6 +52,9 @@
 <style scoped="">
   .danger {
     border: 1px solid red;
+  }
+  button {
+    cursor: pointer;
   }
 </style>
 
@@ -54,13 +72,26 @@
     computed: {
       insufficientQuantity() {
         return this.stock.quantity < this.quantity;
+      },
+      falling() {
+        return (this.stock.price - this.stock.oldPrice) < 0;
+      },
+      difference() {
+        return this.stock.price - this.stock.oldPrice;
+      },
+      loss() {
+        return (this.stock.quantity * this.stock.price - this.stock.quantity * this.stock.initPrice) < 0;
       }
     },
     methods: {
     	...mapActions({
     	    		placeSellOrder: 'sellStock'
     	}),
-    	sellStock() {
+      sellAllStock() {
+        this.sellStock('all');
+      },
+    	sellStock(what) {
+        if (what=='all') this.quantity = this.stock.quantity;
     		const order = {
     			stockId: this.stock.id,
     			stockPrice: this.stock.price,

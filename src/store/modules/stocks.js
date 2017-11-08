@@ -10,32 +10,33 @@ const mutations = {
   },
   'RND_STOCKS' (state) {
     state.stocks.forEach(stock => {
-      stock.price = Math.round(stock.price * (1 + Math.random() - 0.5));
+    stock.oldPrice = stock.price;
+      stock.price = Math.round(stock.price * (1 + Math.random() - 0.4));
     });
   }
 }
 
 const actions = {
-	buyStock: ({ commit }, order) => {
-		commit('BUY_STOCK', order);
-	},
-	initStocks: ({commit}) => {
-		commit('SET_STOCKS', stocks);
-	},
-	randomizeStocks: ({commit}) => {
-		commit('RND_STOCKS');
-	},
+  buyStock: ({ commit }, order) => {
+    commit('BUY_STOCK', order);
+  },
+  initStocks: ({commit}) => {
+    commit('SET_STOCKS', stocks);
+  },
+  randomizeStocks: ({commit}) => {
+    commit('RND_STOCKS');
+  },
 }
 
 const getters = {
-	stocks: state => {
-		return state.stocks;
-	}
+  stocks: state => {
+    return state.stocks;
+  }
 };
 
 export default {
-	state,
-	mutations,
-	actions,
-	getters,
+  state,
+  mutations,
+  actions,
+  getters,
 };
